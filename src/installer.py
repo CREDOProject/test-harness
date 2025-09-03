@@ -33,7 +33,11 @@ def run_docker_install(package, method):
         with open(time_path, "w") as f:
             f.write(str(duration))
         record_install(
-            package, method, proc.returncode == 0, duration, proc.stdout + proc.stderr
+            package,
+            method,
+            proc.returncode == 0,
+            duration,
+            proc.stdout + proc.stderr,
         )
         return package, True
     except Exception as e:
@@ -44,7 +48,17 @@ def run_docker_install(package, method):
 def parallel_install(packages, method, max_workers=4):
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
-            executor.submit(run_docker_install, pkg, method): pkg for pkg in packages
+            executor.submit(
+                run_docker_install,
+                pkg,
+                method,
+            ): pkg
+            for pkg in packages
         }
-        for f in tqdm(as_completed(futures), total=len(futures), desc=f"{method}"):
+        for f in tqdm(
+            as_completed(futures),
+            total=len(futures),
+            desc=f"{
+                method}",
+        ):
             pkg, success = f.result()
