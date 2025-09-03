@@ -1,0 +1,4 @@
+requests
+beautifulsoup4
+concurrent-log-handler
+tqdm
