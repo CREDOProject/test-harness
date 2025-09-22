@@ -10,3 +10,6 @@
 
 - Install with Rscript:
   python -m replicator.main rinstall
+
+- Build runner:
+  chmod +x build-docker.sh && ./build-docker.sh
