@@ -12,16 +12,16 @@ def run_docker_install(package, method):
     time_path = Path(package) / "time.log"
     start = time.time()
     if method == "goinstall":
-        cmd = ["docker", "run", "credo-runner", "credo", "cran", package]
+        cmd = ["docker", "run", "ghcr.io/credoproject/core:v0.19.0-amd64", "--rm", "credo", "bioconductor", package]
     elif method == "rinstall":
         cmd = [
             "docker",
             "run",
-            "credo-runner",
+            "base-install-r:latest",
             "Rscript",
             "-e",
-            f'install.packages("{
-                package}", repos="https://cloud.r-project.org")',
+            f'install.packages("{package}", repos="https://cloud.r-project.org")',
+            "library({package})",
         ]
     else:
         raise ValueError("Unknown method")
